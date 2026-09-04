@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: paypulse-core
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
