@@ -4,15 +4,31 @@ import java.time.Instant;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "transactions")
 public class Transaction {
+    @Id
+    @Column(name = "id", updatable = false, nullable = false, unique = true)
     private UUID id;
+    @Embedded
     private IdempotencyKey idempotencyKey;
+    @Column(name = "description", nullable = false)
     private String description;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_status", nullable = false)
     private TransactionStatus transactionStatus;
+    @Column(name = "created_at", nullable = false)
     private Instant createdAt;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "transaction_id", referencedColumnName = "id", nullable = false)
     private List<LedgerEntry> ledgerEntries = new ArrayList<>();
 
+    // zero-argument constructor for frameworks that require it (e.g., JPA, Jackson)
+    protected Transaction() {
+    }
+    
     // Constructor without ledger Entries
     public Transaction(UUID id, IdempotencyKey idempotencyKey, String description, TransactionStatus transactionStatus, Instant createdAt) {
         this.id = id;

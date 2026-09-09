@@ -1,12 +1,28 @@
 package com.paypulse.domain.model;
 import java.util.UUID; 
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "accounts")
 public class Account {
+    @Id
+    @Column(name = "id", updatable = false,  nullable = false, unique = true)
     private UUID id;
+    @Column(name = "account_number", nullable = false, unique = true)
     private String accountNumber;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_type", nullable = false)
     private AccountType accountType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "currency", nullable = false)
     private Currency currency;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_status", nullable = false)
     private AccountStatus accountStatus;
+
+    // zero-argument constructor for frameworks that require it (e.g., JPA, Jackson)
+    protected Account() {
+    }   
 
     public Account(UUID id, String accountNumber, AccountType accountType, Currency currency, AccountStatus accountStatus) {
         this.id = id;

@@ -3,13 +3,18 @@ package com.paypulse.domain.model;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.persistence.*;
+
 /**
  * Strongly typed Value Object representing an Idempotency Key.
  * 
  * Prevents stringly-typed anti-patterns in payment processing.
  * Guarantees that the key is non-blank and safe for database indexing.
  */
-public record IdempotencyKey(String value) {
+@Embeddable
+public record IdempotencyKey(
+    @Column(name = "idempotency_key", nullable = false, length = 128, unique = true)
+    String value) {
 
     private static final int MAX_KEY_LENGTH = 128;
 

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
+import jakarta.persistence.*;
+
 /**
  * Immutable Domain Value Object representing monetary amounts.
  * 
@@ -13,7 +15,14 @@ import java.util.Objects;
  *   with private final fields, accessor methods (e.g., `amount()`, not `getAmount()`),
  *   value-based `equals()`, `hashCode()`, and `toString()`.
  */
-public record Money(BigDecimal amount, Currency currency) {
+@Embeddable
+public record Money(
+    @Column(name = "amount", nullable = false, precision = 19, scale = 4)
+    BigDecimal amount,
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "currency", length = 3, nullable = false)
+    Currency currency) {
 
     public static final int DEFAULT_SCALE = 4;
     public static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN; // Banker's Rounding
