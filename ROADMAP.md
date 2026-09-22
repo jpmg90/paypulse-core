@@ -71,6 +71,20 @@ Designed for **30–45 min sprint blocks** (Lunch, Remote Morning, Evening Catch
 
 *Target: 2–3 problems per week (Arrays, Hash Maps, Two Pointers, Trees).*
 
-| Date | Problem | Category | Difficulty | Key Pattern / Insight |
-| :--- | :--- | :--- | :--- | :--- |
-| -- | -- | Arrays & Hashing | -- | -- |
+| Date | Problem | Category | Difficulty | Key Pattern / Insight | Notes | 
+| :--- | :--- | :--- | :--- | :--- | :--- |
+|9/21/2026 | [LRU Cache](https://leetcode.com) | High-Throughput Engines | Medium | HashMap + DoublyLinkedList; custom pointer manipulation; thread-safety mechanics via `ReentrantReadWriteLock`. | Leveraged Gemini chat to validate syntax as I'm new to Java from C#, and do initial validations. Utilized Google/Gemini to understand the doubly linked list to ensure we did better than O(n) |
+| | [Insert Delete GetRandom O(1)](https://leetcode.com) | High-Throughput Engines | Medium | ArrayList + HashMap combination; O(1) deletions via swap-with-last-element array optimization. | |
+| | [Design Circular Queue](https://leetcode.com) | High-Throughput Engines | Medium | Fixed-size primitive array ring buffer; thread-safe pointer boundaries; minimizes GC allocation pressure. | |
+| | [Subarray Sum Equals K](https://leetcode.com) | Ledger & String Parsing | Medium | Prefix Sum tracking paired with a Frequency Map; ideal for identifying balanced double-entry adjustments. | |
+| | [Minimum Window Substring](https://leetcode.com) | Ledger & String Parsing | Hard | Two-pointer sliding window; map state compression using primitive `int[]` instead of boxed objects. | |
+| | [String to Integer (atoi)](https://leetcode.com) | Ledger & String Parsing | Medium | High-signal boundary and state machine logic; parsing raw text payloads while handling integer overflow. | |
+| | [Course Schedule II](https://leetcode.com) | Routing & Graphs | Medium | Topological Sort via Kahn's Algorithm (BFS); identifies execution dependency trees in multi-step workflows. | |
+| | [Number of Islands](https://leetcode.com) | Routing & Graphs | Medium | Matrix graph traversal (DFS/BFS); tracking visited states in-place to optimize space complexity. | |
+| | [Network Delay Time](https://leetcode.com) | Routing & Graphs | Medium | Dijkstra's Shortest Path via a custom PriorityQueue; simulates latency hops across distributed systems. | |
+| | [Merge Intervals](https://leetcode.com) | Streaming & Filtering | Medium | Custom sorting array intervals; greedy strategy for grouping intersecting timelines or batch windows. | |
+| | [Find Peak Element](https://leetcode.com) | Streaming & Filtering | Medium | Binary Search on boundary conditions; O(log N) runtime optimization for identifying spikes in unsorted signals. | |
+| | [3Sum](https://leetcode.com) | Streaming & Filtering | Medium | Sorted array with a multi-pointer pinch strategy; filtering duplicates sequentially without memory-heavy `HashSet` wrappers. | |
+| | [Print FooBar Alternately](https://leetcode.com) | JVM Concurrency Loop | Medium | Low-level thread signaling; implementable via `Semaphore`, `Condition`, or explicit `wait()`/`notifyAll()` blocks. | |
+| | [Design Bounded Blocking Queue](https://leetcode.com) | JVM Concurrency Loop | Medium | Thread-safe Producer-Consumer simulation; lock orchestration over bounded capacity to manage thread-starvation. | |
+
