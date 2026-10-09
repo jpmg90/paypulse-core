@@ -1,10 +1,12 @@
 package com.paypulse.application.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.paypulse.infrastructure.persistence.*;
 import com.paypulse.application.dto.*;
 import com.paypulse.domain.model.*;
+import com.paypulse.domain.exception.*;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -22,6 +24,7 @@ public class PaymentService {
         this.accountRepository = accountRepository;
     }
 
+    @Transactional 
     public TransferResponse processTransfer(TransferRequest request)
     {
         // 1. Idempoency Check -> If transaction with the same idempotency key exists, return the existing transaction response
@@ -46,18 +49,18 @@ public class PaymentService {
 
         // Check if Empty
         if (sourceAccount.isEmpty() ) {
-            throw new IllegalArgumentException("Source account does not exist.");
+            throw new AccountNotFoundException(request.sourceAccountId());
         }
         if (destinationAccount.isEmpty()) {
-            throw new IllegalArgumentException("Destination account does not exist.");
+            throw new AccountNotFoundException(request.destinationAccountId());
         }
 
         // Check account Status's
         if (!sourceAccount.get().isActive()) {
-            throw new IllegalArgumentException("Source account is not active.");
+            throw new AccountInactiveException(request.sourceAccountId());
         }
         if (!destinationAccount.get().isActive()) {
-            throw new IllegalArgumentException("Destination account is not active.");
+            throw new AccountInactiveException(request.destinationAccountId());
         }
         
         // TODO: Check if source account has sufficient balance
@@ -65,7 +68,7 @@ public class PaymentService {
 
         // Check Currency Consistency
         if (!sourceAccount.get().getCurrency().equals(request.currency()) || !destinationAccount.get().getCurrency().equals(request.currency())) {
-            throw new IllegalArgumentException("Currency mismatch between accounts and transfer request.");
+            throw new CurrencyMismatchException("Currency mismatch between accounts and transfer request.");
         }
 
         // 3. Constructe Domain transaction
@@ -94,7 +97,7 @@ public class PaymentService {
 
         // 4. Validate and save
         if(!transaction.isBalanced()) {
-            throw new IllegalStateException("Transaction is not balanced.");
+            throw new TransactionNotBalancedException("Transaction debits and credits do not balance.");
         }
 
         // Explicatly set the transaction status to POSTED before saving, this is a simplification for this example. In a real-world scenario, you would have a more complex state machine to handle transaction states. (see ADR-001) 
